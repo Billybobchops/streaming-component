@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Donor Drive Quiz Streaming Component</title>
+    <link rel="stylesheet" href="./style.less" />
+    <script src="./index.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="modal-overlay hidden"></div>
+    <div class="componentContainer">
+      <div class="streamHeader">
+        <h2 class="streamHeader__title">Stream</h2>
+        <img
+          src="./public/mobile-icon.svg"
+          alt="mobile icon"
+          class="mobileIcon"
+        />
+        <ul class="streamControls">
+          <li class="streamControls__option">
+            <span
+              class="icon-video-and-chat videoChatIcon active"
+              id="view-1"
+            ></span>
+          </li>
+          <li class="streamControls__option">
+            <span class="icon-video-only videoIcon" id="view-2"></span>
+          </li>
+          <li class="streamControls__option">
+            <span class="icon-chat-only chatIcon" id="view-3"></span>
+          </li>
+        </ul>
+      </div>
+      <div class="embedContainer">
+        <div id="twitch-embed"></div>
+      </div>
+      <div class="activityContainer">
+        <div class="activityFeed"></div>
+        <div class="mobileDonateBtn">
+          <img
+            src="./public/Donate-Icon.svg"
+            alt="Donate Icon"
+            class="donateIcon"
+          />Donate
+        </div>
+        <div class="donateBtnWrap">
+          <a
+            href="https://testdrive.donordrive.com/index.cfm?fuseaction=donordrive.event&eventID=942"
+            class="donateBtn"
+            >Donate</a
+          >
+        </div>
+      </div>
+    </div>
+    <div class="videoChatScript">
+      <script src="https://embed.twitch.tv/embed/v1.js"></script>
+      <script type="text/javascript">
+        new Twitch.Embed('twitch-embed', {
+          width: '100%',
+          height: 600,
+          channel: 'twitchgaming',
+          // parent: ['embed.example.com', 'othersite.example.com'],
+        });
+      </script>
+    </div>
+  </body>
+</html>
+
+<!-- <div class="activityFeed__item">
+            <div class="feature">$50</div>
+            <div class="content">
+              <p class="title">Ben Clayton</p>
+              <p class="quotation">"Way to go guy! You really are the..."</p>
+            </div>
+            <div class="time">Just Now</div>
+          </div>
+          <div class="activityFeed__item">
+            <div class="feature">
+              <img src="./public/Badge - 1K.svg" class="feature__badge" />
+            </div>
+            <div class="content">
+              <p class="title">New Badge!</p>
+              <p class="quotation">Raise 1K!</p>
+            </div>
+            <div class="time">11:11AM</div>
+          </div>
+          <div class="activityFeed__item">
+            <div class="feature">
+              <img src="./public/Badge - User.svg" class="feature__badge" />
+            </div>
+            <div class="content">
+              <p class="title">New Team Badge!</p>
+              <p class="quotation">Recruit 10 Team Members</p>
+            </div>
+            <div class="time">11:11AM</div>
+          </div> -->

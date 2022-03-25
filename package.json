@@ -1,0 +1,16 @@
+{
+  "name": "donordrive-quiz",
+  "version": "1.0.0",
+  "description": "streaming component quiz",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel ./src/index.html",
+    "build": "parcel build ./src/index.html"
+  },
+  "author": "William Chlanda",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-less": "^2.4.0",
+    "parcel": "^2.4.0"
+  }
+}

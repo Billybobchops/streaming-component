@@ -1,0 +1,300 @@
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@border: 1px solid @light-grey;
+@rounded-border: 5px;
+@Futura-Bold: 'Futura', 'Arial Narrow', Arial, sans-serif;
+@Open-Sans: 'Open Sans', sans-serif;
+@green: #61b203;
+@light-grey: #ddd;
+@dark-grey: #666;
+
+@font-face {
+  font-family: 'Futura';
+  src: url('./font/Futura-Bold.woff') format('woff');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('font/icomoon.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+}
+
+.icon-chat-only:before {
+  content: '\e900';
+  color: @light-grey;
+}
+
+.icon-video-and-chat:before {
+  content: '\e901';
+  color: @light-grey;
+}
+
+.icon-video-only:before {
+  content: '\e902';
+  color: @light-grey;
+}
+
+.icon-chat-only:hover::before,
+.icon-video-and-chat:hover::before,
+.icon-video-only:hover::before {
+  color: @dark-grey;
+}
+
+.active::before {
+  color: @dark-grey;
+}
+
+.hidden {
+  display: none;
+}
+
+.componentContainer,
+.streamControls,
+.activityFeed__item {
+  border: @border;
+  border-radius: @rounded-border;
+}
+
+.componentContainer {
+  max-width: 1200px;
+  margin: auto;
+  margin-top: 65px;
+}
+
+.streamHeader {
+  padding: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.streamHeader__title {
+  font-family: @Futura-Bold;
+  font-size: 19px;
+  margin-left: 9px;
+}
+
+// .streamControls {
+//   display: grid;
+//   grid-template-columns: repeat(3, 1fr);
+//   place-items: center center;
+// }
+
+.streamControls {
+  display: flex;
+}
+
+.streamControls__option {
+  padding: 8px;
+}
+
+.streamControls ul li {
+  // display: inline;
+  margin: 8px;
+}
+
+.modal-overlay {
+  background-color: rgba(0, 0, 0, 0.315);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.videoChatIcon,
+.videoIcon {
+  border-right: @border;
+  padding: 8px 10px;
+}
+
+.activityContainer {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  padding: 10px;
+  gap: 10px;
+}
+
+.activityFeed {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.activityFeed__item {
+  display: grid;
+  grid-template-columns: 65px 1fr 70px;
+}
+
+.content,
+.time {
+  font-family: @Open-Sans;
+  padding: 5px 10px;
+}
+
+.feature {
+  display: grid;
+  place-items: center center;
+  border-right: @border;
+  font-family: @Futura-Bold;
+  color: @green;
+  font-size: 21px;
+}
+
+.feature__badge {
+  max-width: 40px;
+}
+
+.content {
+  display: grid;
+  align-content: center;
+}
+
+.time {
+  display: grid;
+  justify-content: end;
+  font-size: 10px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.quotation {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.donateBtn,
+.mobileDonateBtn {
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  background-color: @green;
+  font-family: @Futura-Bold;
+  border-radius: @rounded-border;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.102);
+  max-height: 65px;
+}
+
+.donateBtnWrap {
+  align-items: center;
+}
+
+.mobileIcon,
+.mobileDonateBtn {
+  display: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .activityFeed {
+    grid-template-columns: repeat(3, 65px);
+    // grid-auto-columns: repeat(3, minmax(auto, 65px));
+  }
+
+  .activityFeed__item {
+    grid-template-columns: 1fr;
+    grid-template-rows: 45px 1fr;
+  }
+
+  .feature__badge {
+    max-width: 30px;
+  }
+
+  .content {
+    display: none;
+  }
+
+  .time {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .activityContainer {
+    grid-template-columns: 1fr 65px;
+  }
+
+  .mobileDonateBtn {
+    display: block;
+    font-family: @Open-Sans;
+    max-width: 65px;
+    display: grid;
+    grid-template-rows: 45px 1fr;
+    font-size: 10px;
+    justify-items: center;
+  }
+
+  .donateIcon {
+    align-self: center;
+  }
+
+  .mobileIcon {
+    display: block;
+    margin: 10px 5px;
+  }
+
+  .streamControls,
+  .donateBtn {
+    display: none;
+  }
+}
+
+// @media screen and (max-width: 500px) {
+//   .donateBtn {
+//     display: grid;
+//     grid-template-rows: 45px 1fr;
+//   }
+// }
