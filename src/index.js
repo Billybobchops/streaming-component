@@ -140,6 +140,6 @@ document.addEventListener('keydown', escapeClose);
 //   getActivity('2046');
 // });
 
-// getActivity('2046');
+getActivity('2046');
 
 // && streamControls.classList.contains('activeMenu')

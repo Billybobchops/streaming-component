@@ -34,6 +34,11 @@ img {
   height: auto;
 }
 
+.link {
+  color: #fff;
+  text-decoration: none;
+}
+
 @border: 1px solid @light-grey;
 @rounded-border: 5px;
 @Futura-Bold: 'Futura', 'Arial Narrow', Arial, sans-serif;
@@ -172,18 +177,34 @@ img {
 .activityFeed {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: minmax(75px, auto);
   gap: 10px;
 }
 
 .activityFeed__item {
   display: grid;
-  grid-template-columns: 65px 1fr 70px;
+  // grid-template-columns: 65px 1fr 70px;
+  grid-template-columns: minmax(65px, auto) 1fr 70px;
 }
 
 .content,
 .time {
   font-family: @Open-Sans;
   padding: 5px 10px;
+}
+
+.feature {
+  font-family: @Futura-Bold;
+  color: @green;
+  border-right: @border;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.time {
+  font-size: 11px;
 }
 
 .content {
@@ -201,8 +222,7 @@ img {
   font-weight: 400;
 }
 
-.donateBtn,
-.mobileDonateBtn {
+.donateBtn {
   text-transform: uppercase;
   text-decoration: none;
   text-align: center;
@@ -213,15 +233,17 @@ img {
   border: none;
   font-size: 18px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.102);
-  max-height: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.donateBtnWrap {
-  align-items: center;
+.donateBtn:hover {
+  background-color: #58a500;
 }
 
 .mobileIcon,
-.mobileDonateBtn,
+.donateIcon,
 .iconText {
   display: none;
 }
@@ -241,6 +263,10 @@ img {
     grid-template-rows: 45px 1fr;
   }
 
+  .feature {
+    border: none;
+  }
+
   .feature__badge {
     max-width: 30px;
   }
@@ -254,7 +280,7 @@ img {
   }
 }
 
-@media screen and (max-width: 682px) {
+@media screen and (max-width: 680px) {
   .activityContainer {
     gap: 0;
   }
@@ -275,7 +301,7 @@ img {
     grid-template-columns: 1fr 65px;
   }
 
-  .mobileDonateBtn {
+  .donateBtn {
     display: block;
     font-family: @Open-Sans;
     max-width: 65px;
@@ -287,6 +313,7 @@ img {
 
   .donateIcon {
     align-self: center;
+    display: block;
   }
 
   .mobileIcon {
@@ -294,8 +321,7 @@ img {
     margin: 10px 5px;
   }
 
-  .streamControls,
-  .donateBtn {
+  .streamControls {
     display: none;
   }
 
@@ -320,17 +346,17 @@ img {
   }
 
   .streamControls__option {
-		height: 45px;
+    height: 45px;
     border-bottom: @border;
-		display: flex;
-		align-items: center;
-		padding-left: 15px;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
   }
 
   .iconText {
     display: block;
     font-family: @Open-Sans;
-		color: @dark-grey;
+    color: @dark-grey;
   }
 
   .icon-chat-only::before,
@@ -339,14 +365,29 @@ img {
     font-size: 20px;
   }
 
-	.cancelBtn {
-		color: red;
-	}
+  .cancelBtn {
+    color: red;
+  }
 }
 
-// @media screen and (max-width: 500px) {
-//   .donateBtn {
-//     display: grid;
-//     grid-template-rows: 45px 1fr;
-//   }
-// }
+@media screen and (max-width: 320px) {
+  .activityContainer {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .activityFeed {
+    grid-template-columns: repeat(3, 1fr);
+    // justify-self: center;
+    text-align: center;
+  }
+
+  .donateBtn {
+    max-width: 100%;
+    grid-template-rows: repeat(2, 30px);
+  }
+
+  .donateIcon {
+    padding-top: 8px;
+  }
+}
