@@ -6,6 +6,9 @@ const channel = 'twitchgaming';
 const parentURL = window.location.host;
 const activityFeed = document.querySelector('.activityFeed');
 const streamControls = document.querySelector('.streamControls');
+const mobileIcon = document.querySelector('.mobileIcon');
+const modalOverlay = document.querySelector('.modalOverlay');
+const cancelBtn = document.querySelector('.cancelBtn');
 
 async function getDonationPageURL(particpantId) {
   try {
@@ -22,7 +25,7 @@ async function getDonationPageURL(particpantId) {
   }
 }
 
-// note github mentions try.donordrive but the endpoint is really testdrive.donordrive!
+// note to self: github docs mention try.donordrive but the endpoint is really testdrive.donordrive!
 async function getActivity(particpantId) {
   try {
     const res = await fetch(
@@ -58,79 +61,85 @@ function renderActivities(activities) {
       </div>
       <div class="time">11:11AM</div>
     </div>`;
-    // console.log(markup);
-    // activityFeed.insertAdjacentHTML('afterbegin', markup);
     activityFeed.insertAdjacentHTML('beforeend', markup);
   });
 }
 
-// getActivity('2046');
+function closeModalMenu() {
+  modalOverlay.classList.add('hidden');
+  streamControls.classList.remove('activeMenu');
+}
+
+function showMenu() {
+  modalOverlay.classList.remove('hidden');
+  streamControls.classList.add('activeMenu');
+}
+
+function escapeClose(e) {
+  if (e.key === 'Escape') {
+    console.log('escape key pressed');
+    closeModalMenu();
+  }
+}
+
+function toggleView(e) {
+  const embed = document.querySelector('.embed');
+  const videoFrame = document.getElementById('video');
+  const chatFrame = document.getElementById('chat');
+  const controls = document.querySelectorAll('.streamControls__option');
+  // const clicked = e.target;
+  const clicked = e.target.closest('.streamControls__option');
+  // const id = clicked.closest('.streamControls__option').id;
+  const id = clicked.id;
+
+  console.log('clicked is');
+  console.log(clicked);
+
+  if (!clicked) return;
+  if (clicked.firstElementChild.classList.contains('active')) return;
+  if (clicked.firstElementChild.classList.contains('cancelBtn')) {
+    closeModalMenu();
+		return;
+  }
+
+  controls.forEach((control) =>
+    control.firstElementChild.classList.remove('active')
+  );
+  clicked.firstElementChild.classList.add('active'); // need to add conditional logic to this to handle <div> and <p>
+
+  if (id === 'view-1') {
+    embed.classList.remove('embedGridOne');
+    embed.classList.add('embedGridBoth');
+    videoFrame.classList.remove('hidden');
+    chatFrame.classList.remove('hidden');
+    closeModalMenu();
+  }
+  if (id === 'view-2') {
+    embed.classList.remove('embedGridBoth');
+    embed.classList.add('embedGridOne');
+    videoFrame.classList.remove('hidden');
+    chatFrame.classList.add('hidden');
+    closeModalMenu();
+  }
+  if (id === 'view-3') {
+    embed.classList.remove('embedGridBoth');
+    embed.classList.add('embedGridOne');
+    chatFrame.classList.remove('hidden');
+    videoFrame.classList.add('hidden');
+    closeModalMenu();
+  }
+}
+
+streamControls.addEventListener('click', toggleView);
+modalOverlay.addEventListener('click', closeModalMenu);
+mobileIcon.addEventListener('click', showMenu);
+// cancelBtn.addEventListener('click', closeModalMenu);
+document.addEventListener('keydown', escapeClose);
 
 // document.addEventListener('DOMContentLoaded', (async) => {
 //   getActivity('2046');
 // });
 
-function toggleView(e) {
-  const scriptDiv = document.querySelector('.videoChatScript');
-  const embedContainer = document.querySelector('.embedContainer');
-  const controls = document.querySelectorAll('.streamControls__option');
-  const clicked = e.target.closest('.streamControls__option');
-  const icon = clicked.firstElementChild;
-	const videoChatMarkup = `
-		<div id="twitch-embed"></div>
-	`;
-  const videoChatScript = `
-    <script src="https://embed.twitch.tv/embed/v1.js"></script>
-    <script type="text/javascript">
-      new Twitch.Embed('twitch-embed', {
-         width: '100%',
-         height: 600,
-         channel: ${channel},
-       });
-    </script>
-  `;
-  const videoMarkup = `
-    <iframe
-      src="https://player.twitch.tv/?channel=dallas&parent=${parentURL}/&muted=true"
-      height="600"
-      width="100%"
-      allowfullscreen>
-    </iframe> 
-  `;
-  const chatMarkup = `
-		<iframe src="https://www.twitch.tv/embed/${channel}/chat?parent=${parentURL}/"
-  	  height="600"
-  	   width="100%">
-		</iframe>
-	`;
-  const activeView = icon.id;
+// getActivity('2046');
 
-  const clear = () => {
-    embedContainer.innerHTML = '';
-    scriptDiv.innerHTML = '';
-  };
-
-  if (!clicked) return;
-  if (clicked.firstElementChild.classList.contains('active')) return;
-
-  controls.forEach((control) =>
-    control.firstElementChild.classList.remove('active')
-  );
-  icon.classList.add('active');
-
-  if (activeView === 'view-1') {
-    clear();
-    embedContainer.insertAdjacentHTML('afterbegin', videoChatMarkup);
-    scriptDiv.insertAdjacentHTML('afterbegin', videoChatScript);
-  }
-  if (activeView === 'view-2') {
-    clear();
-    embedContainer.insertAdjacentHTML('afterbegin', videoMarkup);
-  }
-  if (activeView === 'view-3') {
-    clear();
-    embedContainer.insertAdjacentHTML('afterbegin', chatMarkup);
-  }
-}
-
-streamControls.addEventListener('click', toggleView);
+// && streamControls.classList.contains('activeMenu')

@@ -122,27 +122,33 @@ img {
   margin-left: 9px;
 }
 
-// .streamControls {
-//   display: grid;
-//   grid-template-columns: repeat(3, 1fr);
-//   place-items: center center;
-// }
-
 .streamControls {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 30px;
+  place-items: center center;
+  border-right: @border;
 }
 
-.streamControls__option {
-  padding: 8px;
+.embedGridBoth {
+  display: grid;
+  grid-template-columns: 1fr 340px;
 }
 
-.streamControls ul li {
-  // display: inline;
-  margin: 8px;
+.embedGridOne {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: none;
 }
 
-.modal-overlay {
+.embed iframe {
+  border: none;
+  border-top: @border;
+}
+
+.modalOverlay {
   background-color: rgba(0, 0, 0, 0.315);
+  z-index: 1;
   position: absolute;
   top: 0;
   left: 0;
@@ -180,28 +186,9 @@ img {
   padding: 5px 10px;
 }
 
-.feature {
-  display: grid;
-  place-items: center center;
-  border-right: @border;
-  font-family: @Futura-Bold;
-  color: @green;
-  font-size: 21px;
-}
-
-.feature__badge {
-  max-width: 40px;
-}
-
 .content {
   display: grid;
   align-content: center;
-}
-
-.time {
-  display: grid;
-  justify-content: end;
-  font-size: 10px;
 }
 
 .title {
@@ -234,11 +221,16 @@ img {
 }
 
 .mobileIcon,
-.mobileDonateBtn {
+.mobileDonateBtn,
+.iconText {
   display: none;
 }
 
 @media screen and (max-width: 1200px) {
+  .componentContainer {
+    margin-top: 0;
+  }
+
   .activityFeed {
     grid-template-columns: repeat(3, 65px);
     // grid-auto-columns: repeat(3, minmax(auto, 65px));
@@ -262,6 +254,22 @@ img {
   }
 }
 
+@media screen and (max-width: 682px) {
+  .activityContainer {
+    gap: 0;
+  }
+
+  .embedGridBoth {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .embed iframe {
+    height: 100%;
+    height: 300px;
+  }
+}
+
 @media screen and (max-width: 640px) {
   .activityContainer {
     grid-template-columns: 1fr 65px;
@@ -272,7 +280,7 @@ img {
     font-family: @Open-Sans;
     max-width: 65px;
     display: grid;
-    grid-template-rows: 45px 1fr;
+    grid-template-rows: 45px 20px;
     font-size: 10px;
     justify-items: center;
   }
@@ -290,6 +298,50 @@ img {
   .donateBtn {
     display: none;
   }
+
+  .activeMenu {
+    background-color: #fff;
+    display: block;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 93%;
+    height: auto;
+    z-index: 2;
+  }
+
+  .videoChatIcon,
+  .videoIcon,
+  .chatIcon {
+    border-right: none;
+    padding: 0;
+    margin-right: 12px;
+  }
+
+  .streamControls__option {
+		height: 45px;
+    border-bottom: @border;
+		display: flex;
+		align-items: center;
+		padding-left: 15px;
+  }
+
+  .iconText {
+    display: block;
+    font-family: @Open-Sans;
+		color: @dark-grey;
+  }
+
+  .icon-chat-only::before,
+  .icon-video-and-chat::before,
+  .icon-video-only::before {
+    font-size: 20px;
+  }
+
+	.cancelBtn {
+		color: red;
+	}
 }
 
 // @media screen and (max-width: 500px) {
