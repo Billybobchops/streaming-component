@@ -1,0 +1,25 @@
+.embedGridBoth {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+
+  @media screen and (max-width: 680px) {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
+
+.embedGridOne {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas: none;
+}
+
+.embed iframe {
+  border: none;
+  border-top: @border;
+
+  @media screen and (max-width: 680px) {
+    height: 100%;
+    height: 300px;
+  }
+}

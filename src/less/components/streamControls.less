@@ -1,0 +1,122 @@
+[class^='icon-'],
+[class*=' icon-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+}
+
+.icon-chat-only:before {
+  content: '\e900';
+  color: @light-grey;
+}
+
+.icon-video-and-chat:before {
+  content: '\e901';
+  color: @light-grey;
+}
+
+.icon-video-only:before {
+  content: '\e902';
+  color: @light-grey;
+}
+
+.icon-chat-only,
+.icon-video-and-chat,
+.icon-video-only {
+  &:hover::before {
+    color: @dark-grey;
+  }
+}
+
+.videoChatIcon,
+.videoIcon {
+  border-right: @border;
+  padding: 8px 10px;
+}
+
+.mobileIcon,
+.iconText {
+  display: none;
+}
+
+.active::before {
+  color: @dark-grey;
+}
+
+.streamControls {
+  .bordered();
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 30px;
+  place-items: center center;
+  // border-right: @border;
+}
+
+.modalOverlay {
+  background-color: rgba(0, 0, 0, 0.315);
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+@media screen and (max-width: 640px) {
+  .mobileIcon {
+    display: block;
+    margin: 10px 5px;
+  }
+
+  .streamControls {
+    display: none;
+  }
+
+  .activeMenu {
+    background-color: #fff;
+    display: block;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 93%;
+    height: auto;
+    z-index: 2;
+  }
+
+  .videoChatIcon,
+  .videoIcon,
+  .chatIcon {
+    border-right: none;
+    padding: 0;
+    margin-right: 12px;
+  }
+
+  .streamControls__option {
+    height: 45px;
+    border-bottom: @border;
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+  }
+
+  .iconText {
+    display: block;
+    font-family: @Open-Sans;
+    color: @dark-grey;
+  }
+
+  .icon-chat-only::before,
+  .icon-video-and-chat::before,
+  .icon-video-only::before {
+    font-size: 20px;
+  }
+
+  .cancelBtn {
+    color: red;
+  }
+}
