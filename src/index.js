@@ -37,7 +37,6 @@ async function getActivity(particpantId) {
     const headers = {};
     const etag = localStorage.getItem('etag');
     if (etag) headers['If-None-Match'] = JSON.parse(etag);
-    console.log(headers);
 
     const res = await fetch(
       `https://testdrive.donordrive.com/api/1.3/participants/${particpantId}/activity?limit=3&orderBy=createdDateUTC%20DESC`,
@@ -90,7 +89,9 @@ function convertUTCDate(ISO8601DateString) {
 }
 
 function renderActivities(activities) {
-  // will need functionality to clear out UI of existing elements if new data is recieved~
+  // clear out UI of any existing activities
+  const staleActivities = Array.from(activityFeed.children);
+  staleActivities.forEach((a) => activityFeed.removeChild(a));
 
   activities.forEach((a) => {
     const title = a.title ? a.title : 'Anonymous';
@@ -106,6 +107,7 @@ function renderActivities(activities) {
       </div>
       <div class="time">${timeString}</div>
     </div>`;
+
     activityFeed.insertAdjacentHTML('beforeend', markup);
   });
 }
@@ -174,10 +176,6 @@ streamControls.addEventListener('click', toggleView);
 modalOverlay.addEventListener('click', closeModalMenu);
 mobileIcon.addEventListener('click', showMenu);
 document.addEventListener('keydown', escapeClose);
-
-// document.addEventListener('DOMContentLoaded', (async) => {
-//   getActivity('2046');
-// });
 
 getActivity('2046');
 getParticipantData('2046');
