@@ -21,7 +21,7 @@
 .activityFeed {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: minmax(75px, auto);
+  grid-template-rows: minmax(65px, auto); // 75 autopx
   gap: 10px;
 
   @media screen and (max-width: 1200px) {
@@ -40,8 +40,14 @@
   grid-template-columns: minmax(65px, auto) 1fr 70px;
 
   @media screen and (max-width: 1200px) {
+    grid-template-rows: 25px 15px;
     grid-template-columns: 1fr;
-    grid-template-rows: 45px 1fr;
+    padding: 10px 0;
+  }
+
+  @media screen and (max-width: 320px) {
+    grid-template-rows: repeat(2, 30px);
+    padding: 0;
   }
 }
 
@@ -70,6 +76,8 @@
 
   @media screen and (max-width: 1200px) {
     justify-content: center;
+    text-align: center;
+		padding: 0;
   }
 }
 
@@ -109,19 +117,22 @@
 
   @media screen and (max-width: 640px) {
     display: grid;
-    grid-template-rows: 45px 20px;
+    // grid-template-rows: 45px 20px;
     grid-template-columns: 65px;
     justify-items: center;
     justify-self: end;
     font-family: @Open-Sans;
     max-width: 65px;
     font-size: 10px;
+		padding: 10px 0;
   }
 
   @media screen and (max-width: 320px) {
-    grid-template-rows: repeat(2, 30px);
+    grid-template-rows: 35px;
+		font-family: @Futura-Bold;
+		font-size: 16px;
     max-width: 100%;
-		width: 100%;
+    width: 100%;
   }
 }
 
@@ -135,6 +146,7 @@
 
   @media screen and (max-width: 320px) {
     padding-top: 8px;
+		display: none;
   }
 }
 

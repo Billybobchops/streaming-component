@@ -1,8 +1,4 @@
-// const state = {
-//   recentActivity: [],
-// };
-
-const channel = 'twitchgaming';
+const state = {};
 const parentURL = window.location.host;
 const activityFeed = document.querySelector('.activityFeed');
 const streamControls = document.querySelector('.streamControls');
@@ -10,47 +6,96 @@ const mobileIcon = document.querySelector('.mobileIcon');
 const modalOverlay = document.querySelector('.modalOverlay');
 const cancelBtn = document.querySelector('.cancelBtn');
 
-async function getDonationPageURL(particpantId) {
+async function getParticipantData(particpantId) {
   try {
     const res = await fetch(
       `https://testdrive.donordrive.com/api/1.3/participants/${particpantId}`
     );
     if (!res.ok)
       throw new Error('There was an error fetching donation page url.');
+
     const data = await res.json();
     const donationURL = data.links.donate;
+    const displayName = data.displayName;
+    const markup = `
+			<span>${displayName}</span>
+		`;
+    document
+      .querySelector('.streamHeader__title')
+      .insertAdjacentHTML('afterbegin', markup);
+    console.log(
+      `For participant ID: ${particpantId} their donate page link is: ${donationURL}`
+    );
     return donationURL;
   } catch (error) {
     console.log(error);
   }
 }
 
-// note to self: github docs mention try.donordrive but the endpoint is really testdrive.donordrive!
 async function getActivity(particpantId) {
   try {
+    const headers = {};
+    const etag = localStorage.getItem('etag');
+    if (etag) headers['If-None-Match'] = JSON.parse(etag);
+    console.log(headers);
+
     const res = await fetch(
-      `https://testdrive.donordrive.com/api/1.3/participants/${particpantId}/activity?limit=3&orderBy=createdDateUTC%20DESC`
+      `https://testdrive.donordrive.com/api/1.3/participants/${particpantId}/activity?limit=3&orderBy=createdDateUTC%20DESC`,
+      {
+        method: 'GET',
+        headers,
+      }
     );
     if (!res.ok) throw new Error('There was an error fetching activity data.');
-    const activities = await res.json();
-    // activities.forEach((a) => state.recentActivity.push(a));
-    // console.log(`the state is now..`);
-    // console.log(state);
-    console.log(activities);
-    renderActivities(activities);
+
+    // data not modified, render cached data from state
+    if (res.status === 304) {
+      console.log(res.status);
+      renderActivities(state.activities);
+      return;
+    }
+
+    // data has been modified, render new response
+    if (res.status === 200) {
+      console.log(res.status);
+      const activityData = await res.json();
+      state['activities'] = activityData;
+      localStorage.setItem('etag', res.headers.get('etag'));
+      renderActivities(activityData);
+      return;
+    }
   } catch (error) {
     console.log(error);
   }
 }
 
+function convertUTCDate(ISO8601DateString) {
+  const activityDate = new Date(ISO8601DateString);
+  const today = new Date();
+  const timeDiff = today - activityDate;
+  const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+  const activityTime = `${activityDate
+    .toLocaleTimeString()
+    .slice(0, 4)} ${activityDate.toLocaleTimeString().slice(-2)}`;
+  const currentTime = `${today.toLocaleTimeString().slice(0, 5)} ${today
+    .toLocaleTimeString()
+    .slice(-2)}`;
+  let timeString;
+
+  if (daysDiff > 1) timeString = `${daysDiff} days`; // if it is not today
+  if (daysDiff === 1 && activityTime !== currentTime) timeString = activityTime; // if it is today
+  if (activityTime === currentTime) timeString = 'Just Now'; // if it is exactly the current time
+
+  return timeString;
+}
+
 function renderActivities(activities) {
+  // will need functionality to clear out UI of existing elements if new data is recieved~
+
   activities.forEach((a) => {
     const title = a.title ? a.title : 'Anonymous';
     const message = a.message ? `"${a.message}"` : '';
-
-    console.log(`${a.createdDateUTC}`);
-    console.log(Date.UTC(a.createdDateUTC));
-    // a.createdDateUTC.toString()
+    const timeString = convertUTCDate(a.createdDateUTC);
 
     const markup = `
     <div class="activityFeed__item">
@@ -59,7 +104,7 @@ function renderActivities(activities) {
         <p class="title">${title}</p>
         <p class="quotation">${message}</p>
       </div>
-      <div class="time">11:11AM</div>
+      <div class="time">${timeString}</div>
     </div>`;
     activityFeed.insertAdjacentHTML('beforeend', markup);
   });
@@ -87,25 +132,20 @@ function toggleView(e) {
   const videoFrame = document.getElementById('video');
   const chatFrame = document.getElementById('chat');
   const controls = document.querySelectorAll('.streamControls__option');
-  // const clicked = e.target;
   const clicked = e.target.closest('.streamControls__option');
-  // const id = clicked.closest('.streamControls__option').id;
   const id = clicked.id;
-
-  console.log('clicked is');
-  console.log(clicked);
 
   if (!clicked) return;
   if (clicked.firstElementChild.classList.contains('active')) return;
   if (clicked.firstElementChild.classList.contains('cancelBtn')) {
     closeModalMenu();
-		return;
+    return;
   }
 
   controls.forEach((control) =>
     control.firstElementChild.classList.remove('active')
   );
-  clicked.firstElementChild.classList.add('active'); // need to add conditional logic to this to handle <div> and <p>
+  clicked.firstElementChild.classList.add('active');
 
   if (id === 'view-1') {
     embed.classList.remove('embedGridOne');
@@ -133,7 +173,6 @@ function toggleView(e) {
 streamControls.addEventListener('click', toggleView);
 modalOverlay.addEventListener('click', closeModalMenu);
 mobileIcon.addEventListener('click', showMenu);
-// cancelBtn.addEventListener('click', closeModalMenu);
 document.addEventListener('keydown', escapeClose);
 
 // document.addEventListener('DOMContentLoaded', (async) => {
@@ -141,5 +180,4 @@ document.addEventListener('keydown', escapeClose);
 // });
 
 getActivity('2046');
-
-// && streamControls.classList.contains('activeMenu')
+getParticipantData('2046');
